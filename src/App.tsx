@@ -285,39 +285,31 @@ function App() {
     }
   }, []);
 
-  // Initialize and fetch data
+  // Load the default city immediately; geolocation is an optional refinement.
   useEffect(() => {
-    // Try to get user's location
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        async (position) => {
-          try {
-            const response = await fetch(
-              `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${position.coords.latitude}&longitude=${position.coords.longitude}`
-            );
-            const data = await response.json();
-            if (data.city) {
-              setLocation(data.city);
-              fetchPrayerTimes(data.city);
-              fetchWeather(data.city);
-            }
-          } catch (err) {
-            console.error('Error getting location:', err);
-            fetchPrayerTimes(location);
-            fetchWeather(location);
-          }
-        },
-        () => {
-          // Fallback to default location
-          fetchPrayerTimes(location);
-          fetchWeather(location);
-        }
-      );
-    } else {
-      fetchPrayerTimes(location);
-      fetchWeather(location);
-    }
+    fetchPrayerTimes(location);
+    fetchWeather(location);
   }, [fetchPrayerTimes, fetchWeather, location]);
+
+  useEffect(() => {
+    if (!navigator.geolocation) return;
+
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        try {
+          const response = await fetch(
+            `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${position.coords.latitude}&longitude=${position.coords.longitude}`
+          );
+          const data = await response.json();
+          if (data.city) setLocation(data.city);
+        } catch (err) {
+          console.error('Error getting location:', err);
+        }
+      },
+      () => {},
+      { timeout: 5000, maximumAge: 300000 }
+    );
+  }, []);
 
   // Update background every minute
   useEffect(() => {
