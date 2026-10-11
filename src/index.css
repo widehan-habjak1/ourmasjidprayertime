@@ -86,15 +86,23 @@
   align-items: stretch;
   background: radial-gradient(ellipse at top left, rgba(var(--poster-accent-rgb),.14), transparent 65%), linear-gradient(130deg, rgba(var(--poster-accent-rgb),.12), #031510 68%);
 }
-.friday-poster-message { padding: clamp(14px, 2vw, 36px); color: var(--poster-accent); }
+.friday-poster-message {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  padding: clamp(10px, 1.2vw, 20px);
+  color: var(--poster-accent);
+}
 .friday-poster-eyebrow { display: flex; gap: 8px; align-items: center; font-size: 10px; font-weight: 700; letter-spacing: .16em; }
-.friday-poster-message h2 { margin: 18px 0 12px; font-family: 'Playfair Display', serif; font-size: clamp(22px, 2.5vw, 44px); line-height: 1.15; font-weight: 700; }
-.friday-poster-message p { font-size: clamp(11px, 1vw, 16px); line-height: 1.65; color: #c3d3ca; }
-.friday-poster-account { display: flex; align-items: center; gap: 12px; border-top: 1px solid rgba(var(--poster-accent-rgb),.25); margin-top: 24px; padding-top: 20px; }
+.friday-poster-message h2 { margin: clamp(6px, .8vh, 11px) 0; font-family: 'Playfair Display', serif; font-size: clamp(16px, 1.45vw, 24px); line-height: 1.08; font-weight: 700; }
+.friday-poster-message p { margin: 0; font-size: clamp(10px, .82vw, 13px); line-height: 1.4; color: #c3d3ca; }
+.friday-poster-account { display: flex; align-items: center; gap: 8px; border-top: 1px solid rgba(var(--poster-accent-rgb),.25); margin-top: clamp(8px, 1.1vh, 14px); padding-top: clamp(6px, .9vh, 11px); }
 .friday-poster-account span { font-size: 10px; letter-spacing: .08em; }
-.friday-poster-account strong { display: block; margin: 6px 0; font-family: 'Roboto Mono', monospace; font-size: clamp(12px, 1.2vw, 20px); letter-spacing: 0; }
+.friday-poster-account strong { display: block; margin: 3px 0; font-family: 'Roboto Mono', monospace; font-size: clamp(11px, .95vw, 15px); letter-spacing: 0; }
 .friday-poster-account small { letter-spacing: 0; color: #c3d3ca; }
-.friday-poster-account-name { display: block; margin-top: 2px; font-size: clamp(11px, .9vw, 15px); }
+.friday-poster-account-name { display: block; margin-top: 1px; font-size: clamp(10px, .75vw, 12px); }
 .friday-poster-thanks { display: block; margin-top: 20px; color: #aabeb2; font-size: 10px; }
 .friday-poster-image {
   display: block;
@@ -106,18 +114,27 @@
   justify-self: center;
   background: white;
 }
-.friday-poster-layout--landscape { grid-template-columns: minmax(0, .58fr) minmax(0, 1fr); }
+.friday-poster-layout--landscape {
+  display: flex;
+  grid-template-columns: none;
+  align-items: stretch;
+}
+.friday-poster-layout--landscape .friday-poster-message { flex: 1 1 auto; }
 .friday-poster-image--landscape {
   width: auto;
-  height: auto;
-  max-width: 100%;
-  max-height: 100%;
+  height: 100%;
+  max-width: 64%;
   object-fit: contain;
-  place-self: center;
+  object-position: right center;
+  align-self: stretch;
+  flex: 0 1 auto;
+  margin-left: auto;
 }
 @media (max-width: 900px) {
   .friday-poster-layout { grid-template-columns: 1fr; }
   .friday-poster-message { display: none; }
+  .friday-poster-layout--landscape { justify-content: center; }
+  .friday-poster-image--landscape { max-width: 100%; margin-left: 0; }
 }
 
 @keyframes rain-fall {
